@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Failed to load page</title>
+
+    <style>
+      html {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 20rem;
+        border: thin solid #e2e2e2;
+        border-radius: 5px;
+        padding: 1rem;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .card > .card-title {
+        font-size: 1.3rem;
+        margin: 0;
+      }
+
+      .card > .card-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
+
+      .card > .card-actions > button {
+        background-color: #007bff;
+        padding: 0.5rem 1rem;
+        border: none;
+        color: #ffffff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #error-desc {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1 class="card-title">Failed to load page</h1>
+      <div id="error-desc"></div>
+      <div class="card-actions">
+        <button id="retry-btn">Retry</button>
+      </div>
+    </div>
+
+    <script>
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+
+      document.getElementById('retry-btn').addEventListener('click', () => {
+        window.location.href = params.fu || 'https://auth.codetantra.com/a/d.jsp';
+      });
+
+      document.getElementById('error-desc').innerText = `${params.code || -56123} - ${params.desc || 'Unknown error'}`;
+    </script>
+  </body>
+</html>
